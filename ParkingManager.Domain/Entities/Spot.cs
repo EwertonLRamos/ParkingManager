@@ -5,20 +5,24 @@ public class Spot
     public int Id { get; private set; }
     public string Name { get; private set; }
     public ParkingSession? CurrentSession { get; private set; }
+    public bool IsOcupied { get; private set; }
 
     public Spot(int id, string name)
     {
         Id = id;
         Name = name;
+        IsOcupied = false;
     }
 
-    public void StartSession(ParkingSession session)
+    public void Occupy(ParkingSession session)
     {
         CurrentSession = session;
+        IsOcupied = true;
     }
 
-    public void EndSession()
+    public void Release()
     {
         CurrentSession = null;
+        IsOcupied = false;
     }
 }
