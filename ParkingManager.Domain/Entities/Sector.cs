@@ -1,20 +1,21 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace ParkingManager.Domain.Entities;
 
 public class Sector
 {
-    public int Id { get; private set; }
+    public Guid Id { get; private set; }
     public string Name { get; private set; }
+    public decimal BasePrice { get; private set; }
+    public int MaxCapacity { get; private set; }
+
     public List<Spot> Spots { get; private set; }
 
-    public Sector(int id, string name)
+    public Sector(string name, decimal basePrice, int maxCapacity)
     {
-        Id = id;
+        Id = Guid.NewGuid();
         Name = name;
-        Spots = new List<Spot>();
-    }
-
-    public void AddSpot(Spot spot)
-    {
-        Spots.Add(spot);
+        BasePrice = basePrice;
+        MaxCapacity = maxCapacity;
     }
 }

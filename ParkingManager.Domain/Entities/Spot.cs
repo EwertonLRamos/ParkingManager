@@ -1,28 +1,19 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace ParkingManager.Domain.Entities;
 
 public class Spot
 {
     public int Id { get; private set; }
-    public string Name { get; private set; }
-    public ParkingSession? CurrentSession { get; private set; }
-    public bool IsOcupied { get; private set; }
+    public decimal Latitude { get; private set; }
+    public decimal Longitude { get; private set; }
 
-    public Spot(int id, string name)
-    {
-        Id = id;
-        Name = name;
-        IsOcupied = false;
-    }
+    public Guid SectorId { get; private set; }
+    public Sector Sector { get; private set; }
 
-    public void Occupy(ParkingSession session)
+    public Spot(decimal latitude, decimal longitude)
     {
-        CurrentSession = session;
-        IsOcupied = true;
-    }
-
-    public void Release()
-    {
-        CurrentSession = null;
-        IsOcupied = false;
+        Latitude = latitude;
+        Longitude = longitude;
     }
 }
