@@ -1,14 +1,11 @@
 using ParkingManager.Application.Commands.Entry;
-using ParkingManager.Application.Commands.Exit;
-using ParkingManager.Application.Commands.Parked;
+using ParkingManager.Application.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<EntryCommandHandler>();
-builder.Services.AddScoped<ParkedCommandHandler>();
-builder.Services.AddScoped<ExitCommandHandler>();
+builder.Services.AddCommandHandlers(typeof(EntryCommandHandler).Assembly);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

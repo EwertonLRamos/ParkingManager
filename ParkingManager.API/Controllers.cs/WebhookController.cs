@@ -3,24 +3,16 @@ using ParkingManager.API.DTOs;
 using ParkingManager.Application.Commands.Entry;
 using ParkingManager.Application.Commands.Exit;
 using ParkingManager.Application.Commands.Parked;
+using ParkingManager.Application.DependencyInjection.Dispatchers;
 using ParkingManager.Domain.Enums;
 
 namespace ParkingManager.API.Controllers;
 
 [ApiController]
 [Route("webhook")]
-public class WebhookController : ControllerBase
+public class WebhookController(CommandDispatcher commandDispatcher) : ControllerBase
 {
-    private readonly EntryCommandHandler _entryCommandHandler;
-    private readonly ParkedCommandHandler _parkedCommandHandler;
-    private readonly ExitCommandHandler _exitCommandHandler;
-
-    public WebhookController(EntryCommandHandler entryCommandHandler, ParkedCommandHandler parkedCommandHandler, ExitCommandHandler exitCommandHandler)
-    {
-        _entryCommandHandler = entryCommandHandler;
-        _parkedCommandHandler = parkedCommandHandler;
-        _exitCommandHandler = exitCommandHandler;
-    }
+    private readonly CommandDispatcher _commandDispatcher = commandDispatcher;
 
     [HttpPost]
     public async Task<IActionResult> ReceiveEvent([FromBody] WebhookPayload payload)
@@ -33,7 +25,7 @@ public class WebhookController : ControllerBase
                     payload.Timestamp ?? DateTime.UtcNow, 
                     payload.EventType){};
 
-                _entryCommandHandler.Handle(entryCommand);
+                _commandDispatcher.Dispatch(entryCommand);
                 break;
 
             case EventType.Parked:
@@ -43,7 +35,7 @@ public class WebhookController : ControllerBase
                     payload.Longitude, 
                     payload.EventType){};
 
-                _parkedCommandHandler.Handle(parkedCommand);
+                _commandDispatcher.Dispatch(parkedCommand);
                 break;
 
             case EventType.Exit:
@@ -52,7 +44,7 @@ public class WebhookController : ControllerBase
                     payload.Timestamp ?? DateTime.UtcNow, 
                     payload.EventType){};
 
-                _exitCommandHandler.Handle(exitCommand);
+                _commandDispatcher.Dispatch(exitCommand);
                 break;
         }
 
