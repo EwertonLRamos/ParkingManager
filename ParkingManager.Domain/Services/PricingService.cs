@@ -14,13 +14,13 @@ public static class PricingService
         if(occupancyRate < 0.25)
             multiplier = 0.9m;
         
-        if(occupancyRate >= 0.25 && occupancyRate < 0.50)
+        else if(occupancyRate <= 0.50)
             multiplier = 1.0m;
         
-        if(occupancyRate >= 0.50 && occupancyRate < 0.75)
+        else if(occupancyRate <= 0.75)
             multiplier = 1.1m;
 
-        if(occupancyRate >= 0.75)
+        else if(occupancyRate > 0.75)
             multiplier = 1.25m; 
 
         var totalHours = Math.Ceiling(duration.TotalHours);
