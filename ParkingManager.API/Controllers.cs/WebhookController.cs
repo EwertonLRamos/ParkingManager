@@ -25,7 +25,7 @@ public class WebhookController(CommandDispatcher commandDispatcher) : Controller
                     payload.Timestamp ?? DateTime.UtcNow, 
                     payload.EventType){};
 
-                _commandDispatcher.Dispatch(entryCommand);
+                await _commandDispatcher.DispatchAsync(entryCommand);
                 break;
 
             case EventType.Parked:
@@ -35,7 +35,7 @@ public class WebhookController(CommandDispatcher commandDispatcher) : Controller
                     payload.Longitude, 
                     payload.EventType){};
 
-                _commandDispatcher.Dispatch(parkedCommand);
+                await _commandDispatcher.DispatchAsync(parkedCommand);
                 break;
 
             case EventType.Exit:
@@ -44,7 +44,7 @@ public class WebhookController(CommandDispatcher commandDispatcher) : Controller
                     payload.Timestamp ?? DateTime.UtcNow, 
                     payload.EventType){};
 
-                _commandDispatcher.Dispatch(exitCommand);
+                await _commandDispatcher.DispatchAsync(exitCommand);
                 break;
         }
 
