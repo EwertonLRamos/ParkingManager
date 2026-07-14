@@ -1,28 +1,18 @@
-using System.ComponentModel.DataAnnotations;
 using ParkingManager.Domain.Enums;
 
 namespace ParkingManager.Domain.Entities;
 
-public class ParkingSession
+public class ParkingSession(string licensePlate, DateTime entryTime, double occupancyRate)
 {
-    public Guid Id { get; private set; }
-    public string LicensePlate { get; private set; }
-    public DateTime EntryTime { get; private set; }
+    public Guid Id { get; private set; } = Guid.NewGuid();
+    public string LicensePlate { get; private set; } = licensePlate;
+    public DateTime EntryTime { get; private set; } = entryTime;
     public DateTime? ExitTime { get; private set; }
-    public double OccupancyRate { get; private set; }
-    public SessionStatus Status { get; private set; }
+    public double OccupancyRate { get; private set; } = occupancyRate;
+    public SessionStatus Status { get; private set; } = SessionStatus.Active;
     public decimal? SpotLat { get; private set; }
     public decimal? SpotLng { get; private set; }
     public decimal? TotalAmount { get; private set; }
-    
-    public ParkingSession(string licensePlate, DateTime entryTime, double occupancyRate)
-    {
-        Id = Guid.NewGuid();
-        LicensePlate = licensePlate;
-        EntryTime = entryTime;
-        OccupancyRate = occupancyRate;
-        Status = SessionStatus.Active;
-    }
 
     public void Park(decimal? spotLat, decimal? spotLng)
     {

@@ -6,14 +6,9 @@ using ParkingManager.Infrastructure.Data;
 
 namespace ParkingManager.Infrastructure.Repositories;
 
-public class ParkingSessionRepository : IParkingSessionRepository
+public class ParkingSessionRepository(ParkingManagerDbContext context) : IParkingSessionRepository
 {
-    private readonly ParkingManagerDbContext _context;
-
-    public ParkingSessionRepository(ParkingManagerDbContext context)
-    {
-        _context = context;
-    }
+    private readonly ParkingManagerDbContext _context = context;
 
     public async Task AddAsync(ParkingSession session)
     {
