@@ -4,11 +4,6 @@ public static class PricingService
 {
     public static decimal CalculatePrice(DateTime entryTime, DateTime exitTime, decimal basePrice, double occupancyRate)
     {
-        var duration = exitTime - entryTime;
-
-        if(duration.TotalMinutes <= 30)
-            return 0m;
-
         decimal multiplier = 1.0m;
 
         if(occupancyRate < 0.25)
@@ -21,10 +16,20 @@ public static class PricingService
             multiplier = 1.1m;
 
         else if(occupancyRate > 0.75)
-            multiplier = 1.25m; 
+            multiplier = 1.25m;
 
-        var totalHours = Math.Ceiling(duration.TotalHours);
+        var totalHours = CalculateTotalHours(entryTime, exitTime);
 
         return (decimal)totalHours * basePrice * multiplier;
+    }
+
+    private static double CalculateTotalHours(DateTime entryTime, DateTime exitTime)
+    {
+        var duration = exitTime - entryTime;
+        
+        if(duration.TotalMinutes <= 30)
+            return 0.0;
+        
+        return Math.Ceiling(duration.TotalHours);
     }
 }
