@@ -4,7 +4,9 @@ namespace ParkingManager.Application.Commands.Parked;
 
 public class ParkedCommandHandler : ICommandHandler<ParkedCommand>
 {
-    public void Handle(ParkedCommand command)
+    public Task HandleAsync(ParkedCommand command)
     {
+        // Implementation for handling parked command
+        return Task.CompletedTask;
     }
 }
