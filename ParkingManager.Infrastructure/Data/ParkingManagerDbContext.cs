@@ -58,6 +58,9 @@ public class ParkingManagerDbContext(DbContextOptions<ParkingManagerDbContext> o
             entity.Property(s => s.SectorId)
                 .IsRequired();
 
+            entity.Property(s => s.IsOccupied)
+                .IsRequired();
+
 
             entity.HasIndex(s => new { s.Latitude, s.Longitude });
         });
