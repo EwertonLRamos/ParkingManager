@@ -18,4 +18,20 @@ public class Spot
         Longitude = longitude;
         IsOccupied = false;
     }
+
+    public void Occupy()
+    {
+        if (IsOccupied)
+            throw new InvalidOperationException("Spot is already occupied.");
+
+        IsOccupied = true;
+    }
+
+    public void Release()
+    {
+        if (!IsOccupied)
+            throw new InvalidOperationException("Spot is already vacant.");
+
+        IsOccupied = false;
+    }
 }
