@@ -27,7 +27,7 @@ public class ParkingSessionRepository : IParkingSessionRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<ParkingSession?> GetActiveSessionByPlateAsync(string licensePlate)
+    public async Task<ParkingSession?> GetActiveSessionByLicensePlateAsync(string licensePlate)
     {
         return await _context.ParkingSessions
             .FirstOrDefaultAsync(ps => 

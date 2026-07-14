@@ -6,5 +6,5 @@ public interface IParkingSessionRepository
 {
     Task AddAsync(ParkingSession session);
     Task UpdateAsync(ParkingSession session);
-    Task<ParkingSession?> GetActiveSessionByPlateAsync(string licensePlate);
+    Task<ParkingSession?> GetActiveSessionByLicensePlateAsync(string licensePlate);
 }
