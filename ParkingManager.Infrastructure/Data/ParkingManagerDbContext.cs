@@ -89,7 +89,11 @@ public class ParkingManagerDbContext(DbContextOptions<ParkingManagerDbContext> o
                 .IsRequired()
                 .HasConversion<string>();
 
-            entity.Property(ps => ps.SetorName)
+            entity.Property(ps => ps.SpotLat)
+                .HasMaxLength(5)
+                .IsRequired(false);
+
+            entity.Property(ps => ps.SpotLng)
                 .HasMaxLength(5)
                 .IsRequired(false);
 
@@ -104,7 +108,7 @@ public class ParkingManagerDbContext(DbContextOptions<ParkingManagerDbContext> o
 
             entity.HasIndex(ps => ps.EntryTime);
 
-            entity.HasIndex(ps => new { ps.SetorName, ps.EntryTime });
+            entity.HasIndex(ps => new { ps.SpotLat, ps.EntryTime });
         });
     }
 }
