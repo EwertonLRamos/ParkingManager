@@ -31,8 +31,8 @@ public class WebhookController(CommandDispatcher commandDispatcher) : Controller
             case EventType.Parked:
                 var parkedCommand = new ParkedCommand(
                     payload.LicensePlate, 
-                    payload.Latitude, 
-                    payload.Longitude, 
+                    payload.Latitude!.Value, 
+                    payload.Longitude!.Value, 
                     payload.EventType){};
 
                 await _commandDispatcher.DispatchAsync(parkedCommand);
