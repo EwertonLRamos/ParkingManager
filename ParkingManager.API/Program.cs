@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ParkingManager.API.Extensions;
 using ParkingManager.Application.Commands.Entry;
 using ParkingManager.Application.DependencyInjection.Extensions;
 using ParkingManager.Domain.Repositories;
@@ -22,6 +23,7 @@ builder.Services.AddScoped<ISpotRepository, SpotRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
@@ -36,3 +38,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+await app.FillDatabaseAsync();
+
+app.Run();
