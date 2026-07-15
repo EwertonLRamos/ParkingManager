@@ -11,17 +11,24 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<CommandDispatcher>();
 
-        var handlerType = typeof(ICommandHandler<>);
+    var handlerTypes = new[]
+    {
+        typeof(ICommandHandler<>),
+        typeof(ICommandHandler<,>)
+    };
 
-        var handlers = assembly.GetTypes()
-            .Where(t => t.IsClass && !t.IsAbstract)
-            .SelectMany(t => t.GetInterfaces(), (type, iface) => new { Type = type, Interface = iface })
-            .Where(x => x.Interface.IsGenericType && x.Interface.GetGenericTypeDefinition() == handlerType)
-            .ToList();
+    var handlers = assembly.GetTypes()
+        .Where(t => t.IsClass && !t.IsAbstract)
+        .SelectMany(t => t.GetInterfaces(),
+            (type, iface) => new { Type = type, Interface = iface })
+        .Where(x =>
+            x.Interface.IsGenericType &&
+            handlerTypes.Contains(x.Interface.GetGenericTypeDefinition()))
+        .ToList();
 
-        foreach (var handler in handlers)
-            services.AddScoped(handler.Interface, handler.Type);
+    foreach (var handler in handlers)
+        services.AddScoped(handler.Interface, handler.Type);
 
-        return services;
+    return services;
     }
 }
