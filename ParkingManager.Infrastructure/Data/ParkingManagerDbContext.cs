@@ -31,13 +31,14 @@ public class ParkingManagerDbContext(DbContextOptions<ParkingManagerDbContext> o
             entity.Property(s => s.MaxCapacity)
                 .IsRequired();
 
+
             entity.HasMany(s => s.Spots)
                 .WithOne(s => s.Sector)
                 .HasForeignKey(s => s.SectorId)
                 .OnDelete(DeleteBehavior.Cascade);
 
 
-            entity.HasIndex(s => s.Name);
+            entity.HasIndex(s => s.Name).IsUnique();
         });
 
         modelBuilder.Entity<Spot>(entity =>
@@ -60,6 +61,11 @@ public class ParkingManagerDbContext(DbContextOptions<ParkingManagerDbContext> o
 
             entity.Property(s => s.IsOccupied)
                 .IsRequired();
+
+
+            entity.HasOne(s => s.Sector)
+                .WithMany(s => s.Spots)
+                .HasForeignKey(s => s.SectorId);
 
 
             entity.HasIndex(s => new { s.Latitude, s.Longitude });
