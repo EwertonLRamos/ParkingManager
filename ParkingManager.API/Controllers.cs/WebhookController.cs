@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ParkingManager.API.DTOs;
+using ParkingManager.API.DTOs.Webhook;
 using ParkingManager.Application.Commands.Entry;
 using ParkingManager.Application.Commands.Exit;
 using ParkingManager.Application.Commands.Parked;
