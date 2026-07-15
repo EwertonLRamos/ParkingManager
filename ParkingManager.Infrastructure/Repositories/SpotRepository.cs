@@ -13,7 +13,9 @@ public class SpotRepository(ParkingManagerDbContext context) : ISpotRepository
         => await _context.Spots.CountAsync(ps => ps.IsOccupied);
 
     public async Task<Spot?> GetByCoordinatesAsync(decimal latitude, decimal longitude)
-        => await _context.Spots.FirstOrDefaultAsync(s => 
+        => await _context.Spots
+            .Include(s => s.Sector)
+            .FirstOrDefaultAsync(s => 
                 s.Latitude == latitude && 
                 s.Longitude == longitude
             );

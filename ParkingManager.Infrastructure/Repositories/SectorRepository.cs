@@ -15,6 +15,9 @@ public class SectorRepository(ParkingManagerDbContext context) : ISectorReposito
     public async Task<Sector?> GetByIdAsync(Guid sectorId)
         => await _context.Sectors.FindAsync(sectorId);
 
+    public async Task<Sector?> GetByNameAsync(string name)
+        => await _context.Sectors.FirstOrDefaultAsync(s => s.Name == name);
+
     public async Task<List<Sector>> GetAllAsync()
         => await _context.Sectors.ToListAsync();
 

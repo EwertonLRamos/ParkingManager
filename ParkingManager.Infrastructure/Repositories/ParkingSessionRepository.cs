@@ -30,4 +30,17 @@ public class ParkingSessionRepository(ParkingManagerDbContext context) : IParkin
                 ps.Status == SessionStatus.Active
             );
     }
+
+    public async Task<List<ParkingSession>> GetFinishedSessionsByExitDateAsync(DateOnly exitDate)
+    {
+        var start = exitDate.ToDateTime(TimeOnly.MinValue);
+        var end = start.AddDays(1);
+
+        return await _context.ParkingSessions
+            .Where(ps =>
+                ps.Status == SessionStatus.Finished &&
+                ps.ExitTime >= start &&
+                ps.ExitTime < end)
+            .ToListAsync();
+    }
 }
