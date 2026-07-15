@@ -29,4 +29,42 @@ public class SpotRepository(ParkingManagerDbContext context) : ISpotRepository
         _context.Spots.Update(spot);
         await _context.SaveChangesAsync();
     }
+
+    public async Task AddRangeByBatchAsync(IEnumerable<Spot> spots)
+    {
+        const int batchSize = 500;
+
+        _context.ChangeTracker.AutoDetectChangesEnabled = false;
+
+        var batch = new List<Spot>(batchSize);
+
+        try
+        {    
+            foreach (var spot in spots)
+            {
+                batch.Add(spot);
+
+                if (batch.Count == batchSize)
+                {
+                    await _context.Spots.AddRangeAsync(batch);
+                    await _context.SaveChangesAsync();
+
+                    _context.ChangeTracker.Clear();
+                    batch.Clear();
+                }
+            }
+
+            if (batch.Count != 0)
+            {
+                await _context.Spots.AddRangeAsync(batch);
+                await _context.SaveChangesAsync();
+
+                _context.ChangeTracker.Clear();
+            }
+        }
+        finally
+        {
+            _context.ChangeTracker.AutoDetectChangesEnabled = true;
+        }
+    }
 }

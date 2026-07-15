@@ -8,4 +8,5 @@ public interface ISpotRepository
     Task UpdateAsync(Spot spot);
     Task<int> GetTotalOccupiedSpotsAsync();
     Task<Spot?> GetByCoordinatesAsync(decimal latitude, decimal longitude);
+    Task AddRangeByBatchAsync(IEnumerable<Spot> spots);
 }

@@ -17,4 +17,42 @@ public class SectorRepository(ParkingManagerDbContext context) : ISectorReposito
 
     public async Task<List<Sector>> GetAllAsync()
         => await _context.Sectors.ToListAsync();
+
+    public async Task AddRangeByBatchAsync(IEnumerable<Sector> sectors)
+    {
+        const int batchSize = 500;
+
+        _context.ChangeTracker.AutoDetectChangesEnabled = false;
+
+        var batch = new List<Sector>(batchSize);
+
+        try
+        {    
+            foreach (var sector in sectors)
+            {
+                batch.Add(sector);
+
+                if (batch.Count == batchSize)
+                {
+                    await _context.Sectors.AddRangeAsync(batch);
+                    await _context.SaveChangesAsync();
+
+                    _context.ChangeTracker.Clear();
+                    batch.Clear();
+                }
+            }
+
+            if (batch.Count != 0)
+            {
+                await _context.Sectors.AddRangeAsync(batch);
+                await _context.SaveChangesAsync();
+
+                _context.ChangeTracker.Clear();
+            }
+        }
+        finally
+        {
+            _context.ChangeTracker.AutoDetectChangesEnabled = true;
+        }
+    }
 }
