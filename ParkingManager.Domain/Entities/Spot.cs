@@ -8,7 +8,9 @@ public class Spot(int id, decimal latitude, decimal longitude, Guid sectorId)
     public bool IsOccupied { get; private set; } = false;
 
     public Guid SectorId { get; private set; } = sectorId;
-    public Sector Sector { get; private set; }
+    public Sector Sector { get; private set; } = null!;
+
+    public List<ParkingSession> ParkingSessions { get; private set; } = [];
 
     public void Occupy()
     {

@@ -14,13 +14,21 @@ public class ParkingSession(string licensePlate, DateTime entryTime, double occu
     public decimal? SpotLng { get; private set; }
     public decimal? TotalAmount { get; private set; }
 
-    public void Park(decimal? spotLat, decimal? spotLng)
+    public int? SpotId { get; private set; }
+    public Spot? Spot { get; private set; }
+
+    public Guid? SectorId { get; private set; }
+    public Sector? Sector { get; private set; }
+
+    public void Park(Spot spot)
     {
         if (Status != SessionStatus.Active)
             throw new InvalidOperationException("Session is not active.");
 
-        SpotLat = spotLat;
-        SpotLng = spotLng;
+        SpotId = spot.Id;
+        Spot = spot;
+        SectorId = spot.SectorId;
+        Sector = spot.Sector;
     }
 
     public void Finish(DateTime exitTime, decimal totalAmount)

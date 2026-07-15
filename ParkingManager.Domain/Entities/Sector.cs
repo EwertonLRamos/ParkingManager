@@ -7,5 +7,6 @@ public class Sector(string name, decimal basePrice, int maxCapacity)
     public decimal BasePrice { get; private set; } = basePrice;
     public int MaxCapacity { get; private set; } = maxCapacity;
 
-    public List<Spot> Spots { get; private set; }
+    public List<Spot> Spots { get; private set; } = [];
+    public List<ParkingSession> ParkingSessions { get; private set; } = [];
 }

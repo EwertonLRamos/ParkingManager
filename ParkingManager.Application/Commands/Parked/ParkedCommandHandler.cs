@@ -23,7 +23,7 @@ public class ParkedCommandHandler(IParkingSessionRepository parkingSessionReposi
 
         await _spotRepository.UpdateAsync(spot);
 
-        parkingSession.Park(command.Latitude, command.Longitude);
+        parkingSession.Park(spot);
 
         await _parkingSessionRepository.UpdateAsync(parkingSession);
     }

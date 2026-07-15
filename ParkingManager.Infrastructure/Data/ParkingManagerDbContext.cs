@@ -37,6 +37,11 @@ public class ParkingManagerDbContext(DbContextOptions<ParkingManagerDbContext> o
                 .HasForeignKey(s => s.SectorId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            entity.HasMany(s => s.ParkingSessions)
+                .WithOne(ps => ps.Sector)
+                .HasForeignKey(ps => ps.SectorId)
+                .OnDelete(DeleteBehavior.SetNull);
+
 
             entity.HasIndex(s => s.Name).IsUnique();
         });
@@ -67,6 +72,11 @@ public class ParkingManagerDbContext(DbContextOptions<ParkingManagerDbContext> o
                 .WithMany(s => s.Spots)
                 .HasForeignKey(s => s.SectorId);
 
+            entity.HasMany(s => s.ParkingSessions)
+                .WithOne(ps => ps.Spot)
+                .HasForeignKey(ps => ps.SpotId)
+                .OnDelete(DeleteBehavior.SetNull);
+
 
             entity.HasIndex(s => new { s.Latitude, s.Longitude });
         });
@@ -95,17 +105,20 @@ public class ParkingManagerDbContext(DbContextOptions<ParkingManagerDbContext> o
                 .IsRequired()
                 .HasConversion<string>();
 
-            entity.Property(ps => ps.SpotLat)
-                .HasMaxLength(5)
-                .IsRequired(false);
-
-            entity.Property(ps => ps.SpotLng)
-                .HasMaxLength(5)
-                .IsRequired(false);
-
             entity.Property(ps => ps.TotalAmount)
                 .HasPrecision(10, 2)
                 .IsRequired(false);
+
+            
+            entity.HasOne(ps => ps.Spot)
+                .WithMany(s => s.ParkingSessions)
+                .HasForeignKey(ps => ps.SpotId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasOne(ps => ps.Sector)
+                .WithMany(s => s.ParkingSessions)
+                .HasForeignKey(ps => ps.SectorId)
+                .OnDelete(DeleteBehavior.SetNull);
 
 
             entity.HasIndex(ps => ps.LicensePlate);
@@ -114,7 +127,7 @@ public class ParkingManagerDbContext(DbContextOptions<ParkingManagerDbContext> o
 
             entity.HasIndex(ps => ps.EntryTime);
 
-            entity.HasIndex(ps => new { ps.SpotLat, ps.EntryTime });
+            entity.HasIndex(ps => new { ps.Status, ps.ExitTime });
         });
     }
 }
