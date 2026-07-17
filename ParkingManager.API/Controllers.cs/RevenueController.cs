@@ -4,6 +4,8 @@ using ParkingManager.Application.Queries.Revenue;
 
 namespace ParkingManager.API.Controllers;
 
+[ApiController]
+[Route("revenue")]
 public class RevenueController(CommandDispatcher commandDispatcher) : ControllerBase
 {
     private readonly CommandDispatcher _commandDispatcher = commandDispatcher;
