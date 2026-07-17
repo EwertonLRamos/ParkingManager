@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using ParkingManager.API.Clients;
+using ParkingManager.API.Clients.Settings;
 using ParkingManager.API.Extensions;
 using ParkingManager.Application.Commands.Entry;
 using ParkingManager.Application.DependencyInjection.Extensions;
@@ -33,6 +35,14 @@ builder.Services.AddScoped<ISpotRepository, SpotRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
+builder.Services.AddHttpClient<GarageApiClient>((sp, client) =>
+{
+    var settings = sp
+        .GetRequiredService<IOptions<GarageApiSettings>>()
+        .Value;
+
+    client.BaseAddress = new Uri(settings.BaseUrl);
+});
 
 var app = builder.Build();
 

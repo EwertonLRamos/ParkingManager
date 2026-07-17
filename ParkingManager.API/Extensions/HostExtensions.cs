@@ -1,3 +1,4 @@
+using ParkingManager.API.Clients;
 using ParkingManager.API.DTOs.Garage;
 using ParkingManager.Domain.Entities;
 using ParkingManager.Domain.Repositories;
@@ -21,10 +22,9 @@ public static class HostExtensions
 
         try
         {
-            var client = httpClientFactory.CreateClient();
-            
-            //var response = await client.GetFromJsonAsync<GarageResponseDTO>("http://localhost:5000/garage");
-            var response = await GetMockGarageAsync();
+            var garageClient = services.GetRequiredService<GarageApiClient>();
+            var response = await garageClient.GetGarageAsync();
+            //var response = await GetMockGarageAsync();
 
             if (response != null)
             {
@@ -58,9 +58,9 @@ public static class HostExtensions
         {
             Sectors =
             [
-                new() { Name = "A", BasePrice = 10.0m, MaxCapacity = 100 },
-                new() { Name = "B", BasePrice = 12.5m, MaxCapacity = 80 },
-                new() { Name = "C", BasePrice = 8.0m,  MaxCapacity = 50 }
+                new() { Name = "A", BasePrice = 10.0m, MaxCapacity = 3 },
+                new() { Name = "B", BasePrice = 12.5m, MaxCapacity = 3 },
+                new() { Name = "C", BasePrice = 8.0m,  MaxCapacity = 2 }
             ],
 
             Spots =
