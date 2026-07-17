@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParkingManager.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using ParkingManager.Infrastructure.Data;
 namespace ParkingManager.Infrastructure.Migrations
 {
     [DbContext(typeof(ParkingManagerDbContext))]
-    partial class ParkingManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260717045555_AdjustingDecimalPlacesOfCoordinates")]
+    partial class AdjustingDecimalPlacesOfCoordinates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

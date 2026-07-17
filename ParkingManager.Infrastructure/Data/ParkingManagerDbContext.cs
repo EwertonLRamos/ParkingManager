@@ -54,11 +54,11 @@ public class ParkingManagerDbContext(DbContextOptions<ParkingManagerDbContext> o
             entity.HasKey(s => s.Id);
 
             entity.Property(s => s.Latitude)
-                .HasPrecision(12, 8)
+                .HasPrecision(12, 6)
                 .IsRequired();
 
             entity.Property(s => s.Longitude)
-                .HasPrecision(12, 8)
+                .HasPrecision(12, 6)
                 .IsRequired();
 
             entity.Property(s => s.SectorId)
