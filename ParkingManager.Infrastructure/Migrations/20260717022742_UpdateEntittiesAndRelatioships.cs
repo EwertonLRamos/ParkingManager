@@ -93,7 +93,7 @@ namespace ParkingManager.Infrastructure.Migrations
                 column: "SectorId",
                 principalTable: "Sectors",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.SetNull);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_ParkingSessions_Spots_SpotId",
@@ -101,7 +101,7 @@ namespace ParkingManager.Infrastructure.Migrations
                 column: "SpotId",
                 principalTable: "Spots",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.SetNull);
+                onDelete: ReferentialAction.Restrict);
         }
 
         /// <inheritdoc />

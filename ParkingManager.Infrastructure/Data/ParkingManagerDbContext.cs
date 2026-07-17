@@ -75,7 +75,7 @@ public class ParkingManagerDbContext(DbContextOptions<ParkingManagerDbContext> o
             entity.HasMany(s => s.ParkingSessions)
                 .WithOne(ps => ps.Spot)
                 .HasForeignKey(ps => ps.SpotId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             entity.HasIndex(s => new { s.Latitude, s.Longitude });
@@ -113,12 +113,12 @@ public class ParkingManagerDbContext(DbContextOptions<ParkingManagerDbContext> o
             entity.HasOne(ps => ps.Spot)
                 .WithMany(s => s.ParkingSessions)
                 .HasForeignKey(ps => ps.SpotId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Restrict);
 
             entity.HasOne(ps => ps.Sector)
                 .WithMany(s => s.ParkingSessions)
                 .HasForeignKey(ps => ps.SectorId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             entity.HasIndex(ps => ps.LicensePlate);

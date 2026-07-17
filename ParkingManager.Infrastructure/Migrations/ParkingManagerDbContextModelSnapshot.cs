@@ -135,12 +135,12 @@ namespace ParkingManager.Infrastructure.Migrations
                     b.HasOne("ParkingManager.Domain.Entities.Sector", "Sector")
                         .WithMany("ParkingSessions")
                         .HasForeignKey("SectorId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ParkingManager.Domain.Entities.Spot", "Spot")
                         .WithMany("ParkingSessions")
                         .HasForeignKey("SpotId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Sector");
 

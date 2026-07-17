@@ -12,7 +12,7 @@ using ParkingManager.Infrastructure.Data;
 namespace ParkingManager.Infrastructure.Migrations
 {
     [DbContext(typeof(ParkingManagerDbContext))]
-    [Migration("20260717021522_UpdateEntittiesAndRelatioships")]
+    [Migration("20260717022742_UpdateEntittiesAndRelatioships")]
     partial class UpdateEntittiesAndRelatioships
     {
         /// <inheritdoc />
@@ -138,12 +138,12 @@ namespace ParkingManager.Infrastructure.Migrations
                     b.HasOne("ParkingManager.Domain.Entities.Sector", "Sector")
                         .WithMany("ParkingSessions")
                         .HasForeignKey("SectorId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ParkingManager.Domain.Entities.Spot", "Spot")
                         .WithMany("ParkingSessions")
                         .HasForeignKey("SpotId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Sector");
 
