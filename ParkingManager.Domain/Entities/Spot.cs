@@ -1,8 +1,8 @@
 namespace ParkingManager.Domain.Entities;
 
-public class Spot(int id, decimal latitude, decimal longitude, Guid sectorId)
+public class Spot(decimal latitude, decimal longitude, Guid sectorId)
 {
-    public int Id { get; private set; } = id;
+    public int Id { get; private set; }
     public decimal Latitude { get; private set; } = latitude;
     public decimal Longitude { get; private set; } = longitude;
     public bool IsOccupied { get; private set; } = false;

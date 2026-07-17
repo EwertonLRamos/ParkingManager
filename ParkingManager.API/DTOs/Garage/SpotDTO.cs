@@ -11,8 +11,8 @@ public class SpotDTO
     public string SectorName { get; set; }
     
     [JsonPropertyName("lat")]
-    public decimal Latitude { get; set; }
+    public double Latitude { get; set; }
     
     [JsonPropertyName("lng")]
-    public decimal Longitude { get; set; }
+    public double Longitude { get; set; }
 }
