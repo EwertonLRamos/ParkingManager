@@ -25,6 +25,7 @@ public class ParkingSessionRepository(ParkingManagerDbContext context) : IParkin
     public async Task<ParkingSession?> GetActiveSessionByLicensePlateAsync(string licensePlate)
     {
         return await _context.ParkingSessions
+            .Include(s => s.Spot)
             .FirstOrDefaultAsync(ps => 
                 ps.LicensePlate == licensePlate && 
                 ps.Status == SessionStatus.Active

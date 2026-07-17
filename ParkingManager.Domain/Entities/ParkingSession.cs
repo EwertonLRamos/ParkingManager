@@ -10,8 +10,6 @@ public class ParkingSession(string licensePlate, DateTime entryTime, double occu
     public DateTime? ExitTime { get; private set; }
     public double OccupancyRate { get; private set; } = occupancyRate;
     public SessionStatus Status { get; private set; } = SessionStatus.Active;
-    public decimal? SpotLat { get; private set; }
-    public decimal? SpotLng { get; private set; }
     public decimal? TotalAmount { get; private set; }
 
     public int? SpotId { get; private set; }

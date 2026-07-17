@@ -23,8 +23,8 @@ public class ExitCommandHandler(
         
         if(HasParked(parkingSession))
         {
-            var spot = await _spotRepository.GetByCoordinatesAsync(parkingSession.SpotLat!.Value, parkingSession.SpotLng!.Value) ?? 
-                throw new InvalidOperationException($"Não existe nenhum ponto com as coordenadas: Lat. {parkingSession.SpotLat.Value} e Long. {parkingSession.SpotLng.Value}.");
+            var spot = await _spotRepository.GetByCoordinatesAsync(parkingSession.Spot!.Latitude, parkingSession.Spot!.Longitude) ?? 
+                throw new InvalidOperationException($"Não existe nenhum ponto com as coordenadas: Lat. {parkingSession.Spot!.Latitude} e Long. {parkingSession.Spot!.Longitude}.");
 
             spot.Release();
 
@@ -44,5 +44,5 @@ public class ExitCommandHandler(
     }
 
     private bool HasParked(ParkingSession parkingSession)
-        => parkingSession.SpotLat is not null && parkingSession.SpotLng is not null;
+        => parkingSession.SpotId is not null && parkingSession.Spot is not null;
 }
