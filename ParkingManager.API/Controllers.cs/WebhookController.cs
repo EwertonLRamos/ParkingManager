@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ParkingManager.API.DTOs.Webhook;
+using ParkingManager.API.Factories;
 using ParkingManager.Application.Commands.Entry;
 using ParkingManager.Application.Commands.Exit;
 using ParkingManager.Application.Commands.Parked;
@@ -17,32 +18,34 @@ public class WebhookController(CommandDispatcher commandDispatcher) : Controller
     [HttpPost]
     public async Task<IActionResult> ReceiveEvent([FromBody] WebhookPayload payload)
     {
-        switch (payload.EventType)
+        var webhookEvent = WebhookEventFactory.Create(payload);
+        
+        switch (webhookEvent.EventType)
         {
             case EventType.Entry:
                 var entryCommand = new EntryCommand(
-                    payload.LicensePlate, 
-                    payload.Timestamp ?? DateTime.UtcNow, 
-                    payload.EventType){};
+                    webhookEvent.LicensePlate, 
+                    webhookEvent.Timestamp ?? DateTime.UtcNow, 
+                    webhookEvent.EventType){};
 
                 await _commandDispatcher.DispatchAsync(entryCommand);
                 break;
 
             case EventType.Parked:
                 var parkedCommand = new ParkedCommand(
-                    payload.LicensePlate, 
-                    payload.Latitude!.Value, 
-                    payload.Longitude!.Value, 
-                    payload.EventType){};
+                    webhookEvent.LicensePlate, 
+                    webhookEvent.Latitude!.Value, 
+                    webhookEvent.Longitude!.Value, 
+                    webhookEvent.EventType){};
 
                 await _commandDispatcher.DispatchAsync(parkedCommand);
                 break;
 
             case EventType.Exit:
                 var exitCommand = new ExitCommand(
-                    payload.LicensePlate, 
-                    payload.Timestamp ?? DateTime.UtcNow, 
-                    payload.EventType){};
+                    webhookEvent.LicensePlate, 
+                    webhookEvent.Timestamp ?? DateTime.UtcNow, 
+                    webhookEvent.EventType){};
 
                 await _commandDispatcher.DispatchAsync(exitCommand);
                 break;

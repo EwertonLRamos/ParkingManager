@@ -23,7 +23,8 @@ public static class HostExtensions
         {
             var client = httpClientFactory.CreateClient();
             
-            var response = await client.GetFromJsonAsync<GarageResponseDTO>("http://localhost:5000/garage");
+            //var response = await client.GetFromJsonAsync<GarageResponseDTO>("http://localhost:5000/garage");
+            var response = await GetMockGarageAsync();
 
             if (response != null)
             {
@@ -37,7 +38,7 @@ public static class HostExtensions
                     .ToDictionary(s => s.Name, s => s.Id);
 
                 var spots = response.Spots
-                    .Select(s => new Spot(s.Id, s.Latitude, s.Longitude, sectorsIds[s.SectorName]))
+                    .Select(s => new Spot((decimal)s.Latitude, (decimal)s.Longitude, sectorsIds[s.SectorName]))
                     .ToList();
 
                 await spotRepository.AddRangeByBatchAsync(spots);
@@ -49,5 +50,34 @@ public static class HostExtensions
         }
 
         return host;
+    }
+
+    private static Task<GarageResponseDTO> GetMockGarageAsync()
+    {
+        var mock = new GarageResponseDTO
+        {
+            Sectors =
+            [
+                new() { Name = "A", BasePrice = 10.0m, MaxCapacity = 100 },
+                new() { Name = "B", BasePrice = 12.5m, MaxCapacity = 80 },
+                new() { Name = "C", BasePrice = 8.0m,  MaxCapacity = 50 }
+            ],
+
+            Spots =
+            [
+                new() { Id = 1, SectorName = "A", Latitude = -23.561684, Longitude = -46.655981 },
+                new() { Id = 2, SectorName = "A", Latitude = -23.561700, Longitude = -46.655990 },
+                new() { Id = 3, SectorName = "A", Latitude = -23.561720, Longitude = -46.656000 },
+
+                new() { Id = 4, SectorName = "B", Latitude = -23.562000, Longitude = -46.656200 },
+                new() { Id = 5, SectorName = "B", Latitude = -23.562020, Longitude = -46.656220 },
+                new() { Id = 6, SectorName = "B", Latitude = -23.562040, Longitude = -46.656240 },
+
+                new() { Id = 7, SectorName = "C", Latitude = -23.563000, Longitude = -46.657000 },
+                new() { Id = 8, SectorName = "C", Latitude = -23.563020, Longitude = -46.657020 }
+            ]
+        };
+
+        return Task.FromResult(mock);
     }
 }
